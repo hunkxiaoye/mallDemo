@@ -33,7 +33,6 @@ target/
 /web-app/plugins
 /web-app/WEB-INF/classes
 # "temporary" build files
-target/
 out/
 # other
 *.iws
@@ -68,7 +67,6 @@ local.properties
 ## .gitignore for intellij
 *.iml
 *.ipr
-*.iws
 .idea/
 ## .gitignore for linux
 .*
@@ -94,5 +92,4 @@ Icon
 .Trashes
 *_copy.html
 *_copy.htm
-*_copy.html
 *.pdb
