@@ -69,9 +69,9 @@ public class LoginController {
 //退出登录
 @RequestMapping(value="/logout")
     public String logout(HttpSession session) throws Exception {
-        session.removeAttribute("userId");
+        session.removeAttribute("user");
         session.invalidate();
-        return "/login";
+        return "login";
     }
 
 

@@ -19,7 +19,7 @@
 <form name="loginForm" id="loginForm"  method="post">
     <input type="text" name="username" id="user_login"
            class="input"  size="20" required/></label>
-    <input type="password" id="user_pass"
+    <input type="password" name="password" id="user_pass"
            class="input"  size="20" required/>
     <input name="auto" type="checkbox" id="auto" value="1" /> 自动登录
     <input type="button" name="wp-submit" id="submit-btn" class="button button-primary button-large" value="登录" />
@@ -44,7 +44,7 @@
                     if(data.code==0) {
                         alert(data.msg);
                     } else {
-                        window.location.href="/index";
+                        window.location.href="userDemo/index";
                     }
                 },
                 error: function () {
