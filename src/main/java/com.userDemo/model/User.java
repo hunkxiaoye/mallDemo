@@ -7,37 +7,18 @@ import java.util.Date;
  */
 public class User {
 
-    private long id;
-    private String email;
-    private String password;
+    private int id;
     private String username;
-    private String role;
-    private int status;
-    private Date regTime;
-    private String regIp;
+    private String pwd;
+    private String nickname;
+    private int phone;
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getUsername() {
@@ -48,37 +29,39 @@ public class User {
         this.username = username;
     }
 
-    public String getRole() {
-        return role;
+    public String getPwd() {
+        return pwd;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setPwd(String pwd) {
+        this.pwd = pwd;
     }
 
-    public int getStatus() {
-        return status;
+    public String getNickname() {
+        return nickname;
     }
 
-    public void setStatus(int status) {
-        this.status = status;
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 
-    public Date getRegTime() {
-        return regTime;
+    public int getPhone() {
+        return phone;
     }
 
-    public void setRegTime(Date regTime) {
-        this.regTime = regTime;
+    public void setPhone(int phone) {
+        this.phone = phone;
     }
 
-    public String getRegIp() {
-        return regIp;
+    public int getType() {
+        return type;
     }
 
-    public void setRegIp(String regIp) {
-        this.regIp = regIp;
+    public void setType(int type) {
+        this.type = type;
     }
+
+    private int type;
 
 
 }

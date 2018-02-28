@@ -10,4 +10,6 @@ import org.springframework.stereotype.Component;
 public interface IUserDao {
     User selectUser(long id);
 
+    User findByUsername(String username);
+
 }
