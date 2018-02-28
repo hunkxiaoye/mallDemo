@@ -1,6 +1,7 @@
 package com.userDemo.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.userDemo.common.CookieUtil;
 import com.userDemo.model.User;
 import com.userDemo.service.IUserService;
 import jdk.nashorn.internal.objects.Global;
@@ -53,11 +54,7 @@ public class LoginController {
             request.getSession().setAttribute("user", user);
             //添加cookie
             if(auto!=null) {
-
-                Cookie nameCookie = new Cookie("user", user.getUsername()+"=="+user.getPwd());
-                nameCookie.setMaxAge(60 * 60 * 24 * 7);
-                response.addCookie(nameCookie);
-
+                CookieUtil.setCookie(response,"user",user.getUsername()+"=="+user.getPwd());
             }
         }
         ObjectMapper objectMapper = new ObjectMapper();
