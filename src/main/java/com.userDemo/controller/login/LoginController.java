@@ -1,4 +1,4 @@
-package com.userDemo.controller;
+package com.userDemo.controller.login;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.userDemo.common.CookieUtil;
@@ -30,12 +30,12 @@ public class LoginController {
     private IUserService userService;
 
     //登录页面显示
-    @RequestMapping("/login")
+    @RequestMapping("/login/login")
     public String loginView() {
         return "login";
     }
     //登录验证
-    @RequestMapping(value = "/loginVerify",method = RequestMethod.POST)
+    @RequestMapping(value = "/login/loginVerify",method = RequestMethod.POST)
     @ResponseBody
     public String loginVerify(HttpServletRequest request, HttpServletResponse response) throws Exception {
         Map<String, Object> map = new HashMap<String, Object>();
@@ -64,7 +64,7 @@ public class LoginController {
 
 
 //退出登录
-@RequestMapping(value="/logout")
+@RequestMapping(value="/login/logout")
     public String logout(HttpSession session) throws Exception {
         session.removeAttribute("user");
         session.invalidate();
