@@ -30,45 +30,43 @@ public class LoginController {
     private IUserService userService;
 
     //登录页面显示
-    @RequestMapping("/login/login")
+    @RequestMapping(value = "/login")
     public String loginView() {
         return "login";
     }
     //登录验证
-    @RequestMapping(value = "/login/loginVerify",method = RequestMethod.POST)
+    @RequestMapping(value = "/loginVerify",method = RequestMethod.POST)
     @ResponseBody
     public String loginVerify(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        Map<String, Object> map = new HashMap<String, Object>();
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        String auto = request.getParameter("auto");
-        User user = userService.checklogin(username,password);
-        if(user==null) {
-            map.put("code",0);
-            map.put("msg","用户名或密码错误！");
-        } else {
-            //登录成功
-            map.put("code",1);
-            map.put("msg","");
-            //添加session
-            request.getSession().setAttribute("user", user);
-            //添加cookie
-            if(auto!=null) {
-                CookieUtil.setCookie(response,"user",user.getUsername()+"=="+user.getPwd());
+            Map<String, Object> map = new HashMap<String, Object>();
+            String username = request.getParameter("username");
+            String password = request.getParameter("password");
+            String auto = request.getParameter("auto");
+            User user = userService.checklogin(username, password);
+            if (user == null) {
+                map.put("code", 0);
+                map.put("msg", "用户名或密码错误！");
+            } else {
+                //登录成功
+                map.put("code", 1);
+                map.put("msg", "");
+                //添加cookie
+                if (auto != null) {
+                    CookieUtil.setCookie(response, "user", user.getUsername() + "==" + user.getPwd());
+                }
             }
-        }
-        ObjectMapper objectMapper = new ObjectMapper();
-        String result = objectMapper.writeValueAsString(map);
-        return result;
+            ObjectMapper objectMapper = new ObjectMapper();
+            String result = objectMapper.writeValueAsString(map);
+            return result;
     }
 
 
-//退出登录
-@RequestMapping(value="/login/logout")
+    //退出登录
+    @RequestMapping(value="/logout")
     public String logout(HttpSession session) throws Exception {
         session.removeAttribute("user");
         session.invalidate();
-        return "login";
+        return "index";
     }
 
 

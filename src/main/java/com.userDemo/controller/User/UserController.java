@@ -17,30 +17,9 @@ import java.io.IOException;
  */
 @Controller
 public class UserController {
-    @Resource
-    private IUserService userService;
 
     @RequestMapping("/index")
-    public String index(HttpServletRequest request, HttpSession session) throws IOException {
-        Cookie cookie[] = request.getCookies();
-        String[] cooks = null;
-        if (cookie != null) {
-            for (int i = 0; i < cookie.length; i++) {
-                Cookie c = cookie[i];
-                String userc = c.getValue();
-                cooks = userc.split("==");
-                if (cooks.length == 2) {
-                    String username = cooks[0];
-                    String password = cooks[1];
-                    User user = new User();
-                    user.setUsername(username);
-                    user.setPwd(password);
-
-                    //通过此只用用户名和密码的user找到完整的user对象的信息，并保存在session
-                    userService.autoLogin(user, session, request);
-                }
-            }
-        }
+    public String index() {
         return "index";
     }
 }

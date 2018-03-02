@@ -3,6 +3,7 @@ package com.userDemo.service;
 import com.userDemo.model.User;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -14,5 +15,5 @@ public interface IUserService {
     User checklogin(String username,String pwd);
 
     // 自动登录
-   void autoLogin(@ModelAttribute("user") User u, HttpSession session, HttpServletRequest request);
+   boolean autoLogin(Cookie cookie);
 }

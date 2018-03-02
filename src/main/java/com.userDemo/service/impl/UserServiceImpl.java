@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import javax.annotation.Resource;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -19,23 +20,33 @@ public class UserServiceImpl implements IUserService {
     @Autowired
     private IUserDao userDao;
 
-   public User checklogin(String username,String pwd)
-    {
-      User user = userDao.findByUsername(username);
-      if(user!=null&&user.getPwd().equals(pwd))
-      {
-          return user;
-      }
-      return null;
+    public User checklogin(String username, String pwd) {
+        User user = userDao.findByUsername(username);
+        if (user != null && user.getPwd().equals(pwd)) {
+            return user;
+        }
+        return null;
 
     }
-    //自动登录
-    public void autoLogin(@ModelAttribute("user") User u, HttpSession session, HttpServletRequest request){
-        User user =userDao.findByUsername(u.getUsername());
 
-        if(user!=null && user.getPwd().equals(u.getPwd())){
-            session.setAttribute("user", user);
+    //  用户验证
+    public boolean autoLogin(Cookie cookie) {
+        boolean result = false;
+        if (cookie == null || "".equals(cookie.toString())) {
+            result = false;
+        } else {
+            String userc = cookie.getValue();
+            String[] cooks = null;
+            cooks = userc.split("==");
+            User u = new User();
+            u.setUsername(cooks[0]);
+            u.setPwd(cooks[1]);
+            User user = userDao.findByUsername(u.getUsername());
+            if (user != null && user.getPwd().equals(u.getPwd())) {
+                result = true;
+            }
         }
+        return result;
 
     }
 
