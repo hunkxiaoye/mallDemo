@@ -6,5 +6,6 @@ import java.util.List;
 
 public interface IGoodsService {
 
-    List<Goods> findGoodsAll();
+    List<Goods> findGoodsBytatus(int status);
+    Goods findGoodsByIdAndStock(int id,int stock);
 }

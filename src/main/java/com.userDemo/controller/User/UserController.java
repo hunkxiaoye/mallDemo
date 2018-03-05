@@ -17,9 +17,11 @@ import java.io.IOException;
  */
 @Controller
 public class UserController {
-
-    @RequestMapping("/index")
-    public String index() {
-        return "index";
-    }
+//
+//    @RequestMapping("/index")
+//    public String index() {
+//
+//
+//        return "index";
+//    }
 }

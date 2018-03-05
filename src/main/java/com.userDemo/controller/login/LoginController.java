@@ -5,6 +5,7 @@ import com.userDemo.common.CookieUtil;
 import com.userDemo.model.User;
 import com.userDemo.service.IUserService;
 import jdk.nashorn.internal.objects.Global;
+import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +18,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -52,7 +54,8 @@ public class LoginController {
                 map.put("msg", "");
                 //添加cookie
                 if (auto != null) {
-                    CookieUtil.setCookie(response, "user", user.getUsername() + "==" + user.getPwd());
+                   // String randomStr = RandomStringUtils.randomAlphabetic(4).toLowerCase();
+                    CookieUtil.Login(response, 6*50, "userDemoweb","1",new Date());
                 }
             }
             ObjectMapper objectMapper = new ObjectMapper();

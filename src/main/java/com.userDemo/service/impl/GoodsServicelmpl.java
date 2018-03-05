@@ -12,15 +12,25 @@ import java.util.List;
 public class GoodsServicelmpl implements IGoodsService {
     @Autowired
     private IGoodsDao goodsDao;
-    public List<Goods> findGoodsAll()
+    public List<Goods> findGoodsBytatus(int status)
     {
-        List<Goods> list =goodsDao.findGoodsAll();
+        List<Goods> list =goodsDao.findGoodsBytatus(status);
         if (list!=null)
         {
             return list;
         }
         return null;
     }
+
+   public Goods findGoodsByIdAndStock(int id,int stock)
+   {
+       Goods goods =goodsDao.findGoodsByIdAndStock(id,stock);
+       if (goods!=null)
+       {
+           return goods;
+       }
+       return null;
+   }
 
 
 }

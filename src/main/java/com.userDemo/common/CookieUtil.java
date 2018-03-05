@@ -1,122 +1,205 @@
 package com.userDemo.common;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.Date;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Cookie;
 
+/**
+ * Created by Administrator on 2015/4/1.
+ */
 public class CookieUtil {
-    /**
-     * 设置cookie有效期，根据需要自定义[本系统设置为30天]
-     */
-    private final static int COOKIE_MAX_AGE = 1000 * 60 * 60 * 24 * 30;
 
     /**
+     * 密钥
+     */
+    private static final String key = "BBDmwTjBsF7IwTIyGWt1bmFntRyUgMQL";
+
+    /**
+     * 登陆cookie名称
+     */
+    private static final String cookiename = "userDemoweb";
+
+    /**
+     * 加cookie
      *
-     * @desc 删除指定Cookie
      * @param response
-     * @param cookie
+     * @param expiry
+     *            过期时间(秒为单位)
+     * @param cookieName
+     * @param cookieValue
+     * @param isencode
+     *            是否加密
+     * @throws Exception
      */
-    public static void removeCookie(HttpServletResponse response,
-                                    Cookie cookie) {
-        if (cookie != null) {
-            cookie.setPath("/");
-            cookie.setValue("");
-            cookie.setMaxAge(0);
-            response.addCookie(cookie);
-        }
-    }
-
-    /**
-     *
-     * @desc 删除指定Cookie
-     * @param response
-     * @param cookie
-     * @param domain
-     */
-    public static void removeCookie(HttpServletResponse response, Cookie cookie,
-                                    String domain) {
-        if (cookie != null) {
-            cookie.setPath("/");
-            cookie.setValue("");
-            cookie.setMaxAge(0);
-            cookie.setDomain(domain);
-            response.addCookie(cookie);
-        }
-    }
-
-    /**
-     *
-     * @desc 根据Cookie名称得到Cookie的值，没有返回Null
-     * @param request
-     * @param name
-     * @return
-     */
-    public static String getCookieValue(HttpServletRequest request,
-                                        String name) {
-        Cookie cookie = getCookie(request, name);
-        if (cookie != null) {
-            return cookie.getValue();
-        } else {
-            return null;
-        }
-    }
-
-    /**
-     *
-     * @desc 根据Cookie名称得到Cookie对象，不存在该对象则返回Null
-     * @param request
-     * @param name
-     */
-    public static Cookie getCookie(HttpServletRequest request, String name) {
-        Cookie cookies[] = request.getCookies();
-        if (cookies == null || name == null || name.length() == 0)
-            return null;
-        Cookie cookie = null;
-        for (int i = 0; i < cookies.length; i++) {
-            if (!cookies[i].getName().equals(name))
-                continue;
-            cookie = cookies[i];
-            if (request.getServerName().equals(cookie.getDomain()))
-                break;
-        }
-
-        return cookie;
-    }
-
-    /**
-     *
-     * @desc 添加一条新的Cookie信息，默认有效时间为一个月
-     * @param response
-     * @param name
-     * @param value
-     */
-    public static void setCookie(HttpServletResponse response, String name,
-                                 String value) {
-        setCookie(response, name, value, COOKIE_MAX_AGE);
-    }
-
-    /**
-     *
-     * @desc 添加一条新的Cookie信息，可以设置其最长有效时间(单位：秒)
-     * @param response
-     * @param name
-     * @param value
-     * @param maxAge
-     */
-    public static void setCookie(HttpServletResponse response, String name,
-                                 String value, int maxAge)
-    {
-        if (value == null)
-            value = "";
-        Cookie cookie = new Cookie(name, value);
-        if(maxAge!=0){
-            cookie.setMaxAge(maxAge);
-        }else{
-            cookie.setMaxAge(COOKIE_MAX_AGE);
-        }
+    public static void addCookie(HttpServletResponse response, int expiry,
+                                 String cookieName, String cookieValue, boolean isencode)
+            throws Exception {
+        if (isencode)
+            cookieValue = ToolsUtils.urlEncode(DESedeCoder.encrypt(cookieValue, key));
+        Cookie cookie = new Cookie(cookieName, cookieValue);
         cookie.setPath("/");
+        cookie.setMaxAge(expiry);
         response.addCookie(cookie);
     }
 
+    /**
+     * 获取cookie的值
+     *
+     * @param request
+     * @param cookieName
+     * @param isdecode
+     * @throws Exception
+     */
+    public static String getCookieValueByName(HttpServletRequest request,
+                                              String cookieName, boolean isdecode) throws Exception {
+        String value = null;
+        Cookie[] cookies = request.getCookies();
+        if (cookies == null)
+            return null;
+        for (Cookie cookie : cookies) {
+            if (cookie.getName().equals(cookieName)) {
+                value = isdecode ? DESedeCoder.decrypt(ToolsUtils.urlDecode(cookie.getValue()), key)
+                        : cookie.getValue();
+                break;
+            }
+        }
+        return value;
+    }
+
+    /**
+     * 写cookie
+     *
+     * @param response
+     * @param expiry
+     *            过期时间，以秒为单位
+     * @param UserName
+     * @param UserID
+     * @throws Exception
+     */
+    public static void Login(HttpServletResponse response, int expiry,
+                             String UserName, String UserID, Date LoginTime) throws Exception {
+        String logdate = ToolsUtils.formatDate(LoginTime, "yyyy-MM-dd HH:mm");
+        Date dd = new Date();
+        String cvalue = "uname=" + UserName + ";uid=" + UserID + ";logintime="
+                + logdate;
+        String encvalue = ToolsUtils.urlEncode(DESedeCoder.encrypt(cvalue, key));
+        Cookie cookie = new Cookie(cookiename, encvalue);
+        cookie.setPath("/");
+        cookie.setMaxAge(expiry);
+        response.addCookie(cookie);
+    }
+
+    /**
+     * 刷新cookie过期时间
+     *
+     * @param request
+     * @param response
+     */
+    public static void refreshLogin(HttpServletRequest request,
+                                    HttpServletResponse response, int expiry) {
+        Cookie[] cookies = request.getCookies();
+        for (Cookie cookie : cookies) {
+            if (cookie.getName().equals(cookiename)) {
+                cookie.setMaxAge(expiry);
+                cookie.setPath("/");
+                response.addCookie(cookie);
+                break;
+            }
+        }
+    }
+
+    /**
+     * 读Cookie
+     *
+     * @param request
+     * @return
+     * @throws Exception
+     */
+    public static String[] getLoginInfo(HttpServletRequest request)
+            throws Exception {
+        Cookie[] cookies = request.getCookies();
+        if (cookies == null)
+            return null;
+        for (Cookie cookie : cookies) {
+            if (cookie.getName().equals(cookiename)) {
+                String encvalue = ToolsUtils.urlDecode(cookie.getValue());
+                String cvalue = DESedeCoder.decrypt(encvalue, key);
+                String regexstr = "^uname=(.+?);uid=(.+?);logintime=(.+?)$";
+                Pattern p = Pattern.compile(regexstr, Pattern.CASE_INSENSITIVE);
+                Matcher matchers = p.matcher(cvalue);
+                if (matchers.find()) {
+                    String UserName = matchers.group(1);
+                    String UserID = matchers.group(2);
+                    String LoginTime = matchers.group(3);
+                    return new String[] { UserName, UserID, LoginTime };
+                }
+                break;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * 判断是否登陆
+     *
+     * @param request
+     * @return
+     * @throws Exception
+     */
+    public static boolean isLogin(HttpServletRequest request) throws Exception {
+        if (getLoginInfo(request) == null) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * 退出登陆
+     *
+     * @param response
+     */
+    public static void Logout(HttpServletResponse response) {
+        Cookie cookie = new Cookie(cookiename, null);
+        cookie.setPath("/");
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
+    }
+
+    // 测试使用
+    public static void main(String[] args) throws Exception {
+        test();
+    }
+
+    public static void test() throws Exception{
+        String keya = "BBDmwTjBsF7IwTIyGWt1bmFntRyUgMQL";
+        String cvalue = "uname=o3r&fa;asef,ooj;uid=fdsdfsadfdf;+&*%$\nuname=sgvd;uid=987\nuname=o;uid=0876\n";
+        String encvalue = DESedeCoder.encrypt(cvalue, keya);
+        cvalue = DESedeCoder.decrypt(encvalue, keya);
+
+        // 通过分组index获取正则匹配结果
+        // String regexstr = "uname=(.+?);uid=(.+?)\n";
+
+        // 通过分组名称获取正则匹配结果
+        //jdk7开始支持分组名
+        String regexstr = "uname=(?<jwl1>.+?);uid=(?<jwl2>.+?)\n";
+
+        Pattern p = Pattern.compile(regexstr, Pattern.CASE_INSENSITIVE);
+        Matcher matchers = p.matcher(cvalue);
+        while (matchers.find()) {
+            // 通过分组index获取正则匹配结果
+            // String UserName = matchers.group(1);
+            // String UserID = matchers.group(2);
+
+            // 通过分组名称获取正则匹配结果
+            String UserName = matchers.group("jwl1");
+            String UserID = matchers.group("jwl2");
+
+            System.out.println(UserName);
+            System.out.println(UserID);
+        }
+    }
 
 }

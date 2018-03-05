@@ -1,29 +1,53 @@
-<!DOCTYPE html>
+
+<!doctype html>
 <html lang="en">
 <head>
-    <title>用户登陆</title>
-    <meta charset="UTF-8">
-    <meta http-equiv="pragma" content="no-cache">
-    <meta http-equiv="cache-control" content="no-cache">
-    <meta http-equiv="expires" content="0">
-    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-    <meta http-equiv="description" content="This is my page">
-    <script type="text/javascript" src="js/jquery.min.js"></script>
-    <!--
-    <link rel="stylesheet" type="text/css" href="styles.css">
-    -->
-    <title>Title</title>
-</head>
-<body>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../../../favicon.ico">
 
-<form name="loginForm" id="loginForm"  method="post">
-    <input type="text" name="username" id="user_login"
-           class="input"  size="20" required/></label>
-    <input type="password" name="password" id="user_pass"
-           class="input"  size="20" required/>
-    <input name="auto" type="checkbox" id="auto" value="1" /> 自动登录
-    <input type="button" name="wp-submit" id="submit-btn" class="button button-primary button-large" value="登录" />
-</form>
+    <title>商城登录</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="assets/css/bootstrap/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="signin.css" rel="stylesheet">
+    <script type="text/javascript" src="assets/js/jquery.min.js"></script>
+</head>
+
+<body class="text-center">
+<div class="container">
+    <div class="row clearfix">
+        <div class="col-md-4 column">
+        </div>
+        <div class="col-md-4 column">
+            <div class="row clearfix">
+                <div class="col-md-12 column">
+                </div>
+            </div>
+            <form  role="form" class="form-signin" name="loginForm" id="loginForm">
+                <img class="mb-4" src="https://getbootstrap.com/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
+                <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+                <label for="user_login" class="sr-only">Email address</label>
+                <input type="text" name="username" id="user_login" class="form-control" placeholder="Email address" required autofocus>
+                <label for="user_pass" class="sr-only">Password</label>
+                <input type="password" name="password" id="user_pass" class="form-control" placeholder="Password" required>
+                <div class="checkbox mb-3">
+                    <label>
+                        <input name="auto" id="auto" type="checkbox" value="remember-me"> 记住我
+                    </label>
+                </div>
+                <button type="button" class="btn btn-lg btn-primary btn-block" name="wp-submit" id="submit-btn">登录</button>
+                <p class="mt-5 mb-3 text-muted">&copy; 2017-2018</p>
+            </form>
+        </div>
+        <div class="col-md-4 column">
+        </div>
+    </div>
+</div>
 <script type="text/javascript">
     $("#submit-btn").click(function () {
         var user = $("#user_login").val();
@@ -44,7 +68,17 @@
                     if(data.code==0) {
                         alert(data.msg);
                     } else {
-                        window.location.href="index";
+                        var url = window.location.href;
+                        var returnurl = "index";
+                        var r_len = url.indexOf("?");
+                        if(r_len > 0){
+                            var search = url.substr(r_len+1, url.length);
+                            returnurl = unescape(search.split('&')[0].split('=')[1]);
+                        }
+                          if(returnurl=="/userDemo/")
+                        window.location.href=returnurl+"index";
+                        else
+                              window.location.href=returnurl;
                     }
                 },
                 error: function () {
@@ -56,3 +90,5 @@
 </script>
 </body>
 </html>
+
+

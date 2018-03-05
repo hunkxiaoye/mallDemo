@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 设置为IUserDao接口方法提供sql语句配置 -->
+<mapper namespace="com.userDemo.dao.IGoodsDao">
+
+    <select id="findGoodsBytatus" resultType="Goods" parameterType="int">
+        SELECT * FROM goods WHERE status = #{status}
+    </select>
+
+    <select id="findGoodsByIdAndStock" resultType="Goods" parameterType="int">
+        SELECT * FROM goods gs,category c WHERE gs.id = #{id} AND gs.stock =#{stock} AND gs.category_id =c.id
+    </select>
+
+</mapper>
