@@ -25,12 +25,12 @@ public class LoginInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object o) throws Exception {
         //获取url地址
         String url = request.getServletPath();
-        if (url.endsWith("login") || url.endsWith("loginVerify")) {
+        if (url.endsWith("login1") || url.endsWith("loginVerify1")) {
             return true;
         }
         if (!CookieUtil.isLogin(request)) {
                 String returnurl = request.getContextPath() + request.getServletPath() + (request.getQueryString() == null ? "" : "?" + request.getQueryString());
-                response.sendRedirect(request.getContextPath() + "/login?returnurl=" + ToolsUtils.urlEncode(returnurl));
+                response.sendRedirect(request.getContextPath() + "/login1?returnurl=" + ToolsUtils.urlEncode(returnurl));
 
             return false;
         } else {
