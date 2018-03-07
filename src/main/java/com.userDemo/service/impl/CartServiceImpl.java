@@ -14,7 +14,6 @@ public class CartServiceImpl implements ICartService {
     private ICartDao cartDao;
 
 
-
    public List<Goods> selectCart(int userid){
 
        return cartDao.selectCart(userid);

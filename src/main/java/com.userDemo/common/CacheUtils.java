@@ -13,81 +13,61 @@ import org.ehcache.expiry.Duration;
 import org.ehcache.expiry.Expirations;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class CacheUtils {
 
-//    private static UserManagedCache<String, Object> userManagedCache;
-//
-//    static {
-//        userManagedCache =
-//                UserManagedCacheBuilder.newUserManagedCacheBuilder(String.class, Object.class)
-//                        .build(false);
-//        userManagedCache.init();
-//    }
-//
-//
-//    public static <T> T get(String key) {
-//        return (T) userManagedCache.get(key);
-//    }
-//
-//    public static void set(String key, Object value) {
-//        userManagedCache.put(key, value);
-//    }
-//
-//    public static void remove(String key) {
-//        userManagedCache.remove(key);
-//    }
-private static CacheManager cacheManager;
-static {
+    private static CacheManager cacheManager;
+    private static HashMap<Integer, Cache<String, Object>> hashMap = new HashMap<>();
+    private static Cache<String, Object> myCache;
 
- cacheManager = CacheManagerBuilder
-        .newCacheManagerBuilder()
-        .withCache(
-                "defaults",
-                CacheConfigurationBuilder.newCacheConfigurationBuilder(
-                        String.class, Object.class,
-                        ResourcePoolsBuilder.heap(100))
-                        .withExpiry(Expirations.timeToLiveExpiration(Duration.of(20, TimeUnit.SECONDS)))
-                        .build())
-        .build(true);
+    static {
+        cacheManager = CacheManagerBuilder
+                .newCacheManagerBuilder()
+                .withCache(
+                        "10",
+                        CacheConfigurationBuilder.newCacheConfigurationBuilder(
+                                String.class, Object.class,
+                                ResourcePoolsBuilder.heap(10000))
+                                .withExpiry(Expirations.timeToLiveExpiration(Duration.of(10, TimeUnit.SECONDS)))
+                                .build())
+                .build(true);
+    }
 
 
-}
-public static Cache<String, Object> typeCache(int type)
-{
-     Cache<String, Object> myCache = null ;
-    switch (type)
-    {
-        case 1:
-              myCache = cacheManager.getCache(
-            "defaults", String.class, Object.class);
-        break;
-        case 2:
-            cacheManager.createCache(
-                    "myCache",
+
+    public static <T> T get(String key, int time) {
+        if(hashMap.containsKey(time))
+        {
+            myCache =hashMap.get(time) ;
+            return (T)myCache.get(key);
+        }
+          return null;
+    }
+
+    public static void set(String key, Object value, int time) {
+        if (!hashMap.containsKey(time))
+        {
+            myCache = cacheManager.createCache(
+                    time + "",
                     CacheConfigurationBuilder.newCacheConfigurationBuilder(
                             String.class, Object.class,
                             ResourcePoolsBuilder.heap(100))
-                            .withExpiry(Expirations.timeToLiveExpiration(Duration.of(20, TimeUnit.SECONDS)))
+                            .withExpiry(Expirations.timeToLiveExpiration(Duration.of(time, TimeUnit.SECONDS)))
                             .build());
-            break;
+            hashMap.put(time, myCache);
+        }
+        myCache.put(key, value);
+
 
     }
-    return myCache;
-}
 
-
-    public static <T> T get(String key,int type) {
-
-        return (T) typeCache(type).get(key);
-    }
-
-    public static void set(String key, Object value,int type) {
-        typeCache(type).put(key, value);
-    }
-
-    public static void remove(String key,int type) {
-        typeCache(type).remove(key);
+    public static void remove(String key, int time) {
+        if(hashMap.get(time)!=null) {
+            myCache = hashMap.get(time);
+            myCache.remove(key);
+        }
     }
 }
