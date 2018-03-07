@@ -1,0 +1,71 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>商品详细页</title>
+    <link href="assets/css/bootstrap/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="signin.css" rel="stylesheet">
+    <script type="text/javascript" src="assets/js/jquery.min.js"></script>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span2">
+        </div>
+        <div class="span6">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>
+
+                    </th>
+                    <th>
+                        商品名称
+                    </th>
+                    <th>
+                        单价
+                    </th>
+                    <th>
+                        商品信息
+                    </th>
+                    <th>
+                        库存
+                    </th>
+                    <th>
+                       操作
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>
+                        <img src="$list.img">
+                    </td>
+                    <td>
+                        $model.Name
+                    </td>
+                    <td>
+                        $model.Price
+                    </td>
+                    <td>
+                        $model.Info
+                    </td>
+                    <td>
+                        $model.Stock
+                    </td>
+                    <td>
+                        <a href="/addGoods?goodsid=model.id">加入购物车</a>&nbsp;&nbsp;<a href="#">立即购买</a>
+                    </td>
+                    <td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="span4">
+        </div>
+    </div>
+</div>
+</body>
+</html>

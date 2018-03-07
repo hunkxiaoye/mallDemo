@@ -22,11 +22,20 @@ public class GoodsController {
     public String GoodsTable(@RequestParam(required = false,defaultValue = "0") int type,Model model)
     {
 
-        //List<Goods> list = goodsService.findGoodsBytatus(type);
-           // model.addAttribute("list",list);
-        Goods goods =goodsService.findGoodsByIdAndStock(1,3);
-        model.addAttribute("list",goods);
+        List<Goods> list = goodsService.findGoodsBytatus(type);
+            model.addAttribute("list",list);
+        //Goods goods =goodsService.findGoodsByIdAndStock(1,3);
+        //model.addAttribute("list",goods);
         return "index";
     }
+
+    @RequestMapping(value ="/GoodsDetail")
+    public  String GoodsDetail(Model model ,int goodsid)
+    {
+      Goods goods = goodsService.findGoodsById(goodsid);
+      model.addAttribute("model",goods);
+        return "GoodsDetail";
+    }
+
 
 }

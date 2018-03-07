@@ -17,48 +17,50 @@
         <th>
             库存
         </th>
-
+        <th>操作</th>>
     </tr>
     </thead>
     <tbody>
 
-    <tr>
-        <td>
-            <img src="$list.img">
-        </td>
-        <td>
-            $list.Name
-        </td>
-        <td>
-            $list.Price
-        </td>
-        <td>
-            $list.Info
-        </td>
-        <td>
-            $list.Stock
-        </td>
-        <td>
-    </tr>
-    <!--#foreach($item in $list)-->
     <!--<tr>-->
         <!--<td>-->
-            <!--<img src="$item.Img">-->
+            <!--<img src="$list.img">-->
         <!--</td>-->
         <!--<td>-->
-            <!--$item.Name-->
+            <!--$list.Name-->
         <!--</td>-->
         <!--<td>-->
-            <!--$item.Price-->
+            <!--$list.Price-->
         <!--</td>-->
         <!--<td>-->
-            <!--$item.Info-->
+            <!--$list.Info-->
         <!--</td>-->
         <!--<td>-->
-            <!--$item.Stock-->
+            <!--$list.Stock-->
         <!--</td>-->
         <!--<td>-->
     <!--</tr>-->
-    <!--#end-->
+    #foreach($item in $list)
+    <tr>
+        <td>
+            <img src="$item.Img">
+        </td>
+        <td>
+            $item.Name
+        </td>
+        <td>
+            $item.Price
+        </td>
+        <td>
+            $item.Info
+        </td>
+        <td>
+            $item.Stock
+        </td>
+        <td>
+            <a href="/addGoods?goodsid=$item.id">加入购物车</a>&nbsp;&nbsp;<a href="#">立即购买</a>
+        </td>
+    </tr>
+    #end
     </tbody>
 </table>

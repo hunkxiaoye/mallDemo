@@ -3,13 +3,25 @@
 
 <!-- 设置为IUserDao接口方法提供sql语句配置 -->
 <mapper namespace="com.userDemo.dao.IGoodsDao">
-
-    <select id="findGoodsBytatus" resultType="Goods" parameterType="int">
+    <resultMap id="Goods" type="Goods">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="price" property="price" />
+        <result column="info" property="info" />
+        <result column="img" property="img" />
+        <result column="stock" property="stock" />
+        <result column="status" property="status" />
+        <result column="category_id" property="category_id" />
+    </resultMap>
+    <select id="findGoodsBytatus" resultMap="Goods" parameterType="int">
         SELECT * FROM goods WHERE status = #{status}
     </select>
 
-    <select id="findGoodsByIdAndStock" resultType="Goods" parameterType="int">
+    <select id="findGoodsByIdAndStock" resultMap="Goods" parameterType="int">
         SELECT * FROM goods gs,category c WHERE gs.id = #{id} AND gs.stock =#{stock} AND gs.category_id =c.id
     </select>
 
+    <select id="findGoodsById" resultMap="Goods" parameterType="int">
+        SELECT * FROM goods WHERE id = #{id}
+    </select>
 </mapper>

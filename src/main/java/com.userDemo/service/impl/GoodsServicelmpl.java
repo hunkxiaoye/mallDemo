@@ -26,17 +26,24 @@ public class GoodsServicelmpl implements IGoodsService {
 
     public Goods findGoodsByIdAndStock(int id, int stock) {
         Goods goods = null;
-        if (CacheUtils.get("goods") == null) {
+        if (CacheUtils.get("goods",1) == null) {
             goods = goodsDao.findGoodsByIdAndStock(id, stock);
-            CacheUtils.set("goods", goods);
+            CacheUtils.set("goods", goods,1);
 
         } else {
-            goods = CacheUtils.get("goods");
+            goods = CacheUtils.get("goods",1);
         }
 
 
         return goods;
     }
+
+   public Goods findGoodsById(int id)
+   {
+       Goods goods = null;
+       goods = goodsDao.findGoodsById(id);
+       return goods;
+   }
 
 
 }

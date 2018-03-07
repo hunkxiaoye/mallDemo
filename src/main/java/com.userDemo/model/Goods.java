@@ -8,7 +8,7 @@ public class Goods {
     private String img;
     private int stock;
     private int status;
-    private int categoryid;
+    private int category_id;
 
     public int getId() {
         return id;
@@ -67,10 +67,10 @@ public class Goods {
     }
 
     public int getCategoryid() {
-        return categoryid;
+        return category_id;
     }
 
     public void setCategoryid(int categoryid) {
-        this.categoryid = categoryid;
+        this.category_id = categoryid;
     }
 }
