@@ -51,21 +51,24 @@
                         $item.Info
                     </td>
                     <td>1</td>
-                    <td>
-                        <a href="/userDemo/delGoods?goodsid=$item.id">删除</a>
-                    </td>
                 </tr>
                 #end
                 </tbody>
             </table>
-            <a href="/addOrder">提交订单</a>>
+            <form action="/userDemo/addOrder" method="post">
+
+
+            <div>
+                #parse("common/AddressList.html")
+            </div>
+                <button type="submit">提交订单</button>
+            </form>
         </div>
+
         <div class="span4">
         </div>
     </div>
 </div>
-<div>
-    #parse("common/AddressIndex.html")
-</div>
+
 </body>
 </html>
