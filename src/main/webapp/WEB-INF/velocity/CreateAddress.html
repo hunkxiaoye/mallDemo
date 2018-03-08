@@ -1,0 +1,29 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>Title</title>
+</head>
+<body>
+#if($isUpdate)
+<form action="/userDemo/UpdateAddress" method="post">
+    <span> 姓名</span><input type="text" name="name" value="$model.Name"/>
+    <span> 电话</span><input type="text" name="phone" value="$model.Phone"/>
+    <span> 地址</span><input type="text" name="address" value="$model.Address"/>
+    <span> 邮编</span><input type="text" name="postcode" value="$model.Postcode"/>
+    <input type="hidden" name="id" value="$model.id">
+    <input type="hidden" name="user_id" value="$model.user_id">
+    <button type="submit">修改</button>
+</form>
+#else
+<form action="/userDemo/CreateAddress" method="post">
+    <span> 姓名</span><input name="name" type="text"/>
+    <span> 电话</span><input name="phone" type="text"/>
+    <span> 地址</span><input name="address" type="text"/>
+    <span> 邮编</span><input name="postcode" type="text"/>
+    <button type="submit">添加</button>
+</form>
+#end
+
+</body>
+</html>

@@ -6,7 +6,6 @@
     <link href="assets/css/bootstrap/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="signin.css" rel="stylesheet">
     <script type="text/javascript" src="assets/js/jquery.min.js"></script>
 </head>
 <body>
@@ -53,14 +52,15 @@
                     <td>
                         $item.Info
                     </td>
-                    <td>1</td>>
+                    <td>1</td>
                     <td>
-                        <a href="/delGoods?goodsid=$item.id">删除</a>
+                        <a href="/userDemo/delGoods?goodsid=$item.id">删除</a>
                     </td>
                 </tr>
                 #end
                 </tbody>
             </table>
+            <a href="/addOrder">提交订单</a>>
         </div>
         <div class="span4">
         </div>

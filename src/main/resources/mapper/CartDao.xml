@@ -3,6 +3,22 @@
 
 <!-- 设置为IUserDao接口方法提供sql语句配置 -->
 <mapper namespace="com.userDemo.dao.ICartDao">
+    <select id="addList" parameterType="java.util.List">
+        INSERT INTO Cart(user_id,goods_id,amount) VALUES
+        <foreach collection="list" item="itm" separator=",">
+            (#{itm.user_id},#{itm.goods_id},#{itm.amount})
+        </foreach>>
+    </select>
 
+    <insert id="add" parameterType="Cart">
+      INSERT INTO Cart(user_id,goods_id,amount) VALUES
+     (#{user_id},#{goods_id},#{amount})
+    </insert>
 
+    <select id="selectCart" resultType="Cart">
+     SELECT * FROM Cart WHERE user_id = #{user_id}
+    </select>
+    <delete id="deleteCart" parameterType="Cart">
+        DELETE FROM Cart WHERE user_id =#{user_id} AND goods_id =#{goods_id}
+    </delete>
 </mapper>

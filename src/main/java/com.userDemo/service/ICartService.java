@@ -1,11 +1,16 @@
 package com.userDemo.service;
 
+import com.userDemo.model.Cart;
 import com.userDemo.model.Goods;
 
 import java.util.List;
 
 public interface ICartService {
-    List<Goods> selectCart(int userid);
-    int addCart(int goodsid,int userid,int amount);
-    int deleteCart( int cartid,int userid);
+    List<Cart> selectCart(int userid);
+
+    void addList(List<Cart> list);
+
+    void add(Cart cart);
+
+    void deleteCart(Cart cart);
 }

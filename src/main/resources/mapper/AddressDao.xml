@@ -3,6 +3,29 @@
 
 <!-- 设置为IUserDao接口方法提供sql语句配置 -->
 <mapper namespace="com.userDemo.dao.IAddressDao">
+    <select id="findAllByuserid" resultType="Address" parameterType="int">
+        SELECT * FROM Address WHERE user_id = #{user_id}
+    </select>
 
+    <select id="findAllById" resultType="Address" parameterType="int">
+        SELECT * FROM Address WHERE id = #{id}
+    </select>
+    <insert id="add" parameterType="Address">
+        INSERT INTO Address(name,phone,address,postcode,user_id) VALUES
+        (#{name},#{phone},#{address},#{postcode},#{user_id})
+    </insert>
 
+    <update id="Update" parameterType="Address">
+        UPDATE Address a SET
+        a.name = #{name},
+        a.phone = #{phone},
+        a.address = #{address},
+        a.postcode = #{postcode},
+        a.user_id = #{user_id}
+        WHERE a.id = #{id};
+
+</update>
+    <delete id="delete" parameterType="int">
+        DELETE FROM Address WHERE id = #{id}
+    </delete>
 </mapper>

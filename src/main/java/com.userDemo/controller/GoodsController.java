@@ -1,4 +1,4 @@
-package com.userDemo.controller.Goods;
+package com.userDemo.controller;
 
 import com.userDemo.model.Goods;
 import com.userDemo.service.IGoodsService;

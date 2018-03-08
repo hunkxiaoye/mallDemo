@@ -1,6 +1,7 @@
 package com.userDemo.service.impl;
 
 import com.userDemo.dao.ICartDao;
+import com.userDemo.model.Cart;
 import com.userDemo.model.Goods;
 import com.userDemo.service.ICartService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,15 +14,21 @@ public class CartServiceImpl implements ICartService {
     @Autowired
     private ICartDao cartDao;
 
+    public List<Cart> selectCart(int userid) {
 
-   public List<Goods> selectCart(int userid){
+        return cartDao.selectCart(userid);
+    }
 
-       return cartDao.selectCart(userid);
-   }
-   public int addCart(int goodsid,int userid,int amount){
-       return cartDao.addCart(goodsid,userid,amount);
-   }
-   public int deleteCart( int goodsid,int userid){
-    return cartDao.deleteCart(goodsid,userid);
-   }
+    public void addList(List<Cart> list) {
+        cartDao.addList(list);
+    }
+
+    public void add(Cart cart) {
+        cartDao.add(cart);
+    }
+
+    public void deleteCart(Cart cart) {
+
+        cartDao.deleteCart(cart);
+    }
 }

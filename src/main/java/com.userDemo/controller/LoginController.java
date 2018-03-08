@@ -1,4 +1,4 @@
-package com.userDemo.controller.login;
+package com.userDemo.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.userDemo.common.CookieUtil;
