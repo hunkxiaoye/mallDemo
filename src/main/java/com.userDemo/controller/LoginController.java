@@ -90,6 +90,8 @@ public class LoginController {
             }else{
                 if (auto!=null)
                 {
+                    CookieUtil.Login(response,3000,"userDemoweb",user.getId()+"",new Date());
+                }else {
                     CookieUtil.Login(response,300,"userDemoweb",user.getId()+"",new Date());
                 }
 
