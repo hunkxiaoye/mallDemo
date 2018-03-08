@@ -34,7 +34,7 @@ public class AddressController {
         int userid = Integer.parseInt(CookieUtil.getLoginInfo(request)[1]);
 
         model.addAttribute("List", selectList(userid));
-        return "order";
+        return "redirect:/order";
     }
 
     public ArrayList<Address> selectList(int userid) {

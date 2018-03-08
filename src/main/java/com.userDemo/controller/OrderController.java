@@ -3,9 +3,8 @@ package com.userDemo.controller;
 import com.userDemo.common.CookieUtil;
 import com.userDemo.model.Cart;
 import com.userDemo.model.Goods;
-import com.userDemo.service.IAddressService;
-import com.userDemo.service.ICartService;
-import com.userDemo.service.IGoodsService;
+import com.userDemo.model.OrderDetail;
+import com.userDemo.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,17 +22,37 @@ public class OrderController {
     private ICartService cartService;
     @Autowired
     private IGoodsService goodsService;
-    @RequestMapping(value = "/addOrder")
-    public String addOrder(Model model, HttpServletRequest request,
-                           HttpServletResponse response) throws Exception {
+    @Autowired
+    private IOrdersService ordersService;
+    @Autowired
+    private IOrderDetailService orderDetailService;
+
+    @RequestMapping(value = "/orderIndex")
+    public String orderIndex(Model model, HttpServletRequest request) throws Exception {
         ArrayList<Goods> goodsList = new ArrayList<>();
         List<Cart> list = cartService.selectCart(Integer.parseInt(CookieUtil.getLoginInfo(request)[1]));
         for (Cart item : list) {
             goodsList.add(goodsService.findGoodsById(item.getGoods_id()));
         }
 
-        model.addAttribute("list", goodsList);
+        model.addAttribute("$goodsList", goodsList);
 
-        return "Order";
+        return "redirect:/Order";
+    }
+
+
+    public String addOrder(int addressid, HttpServletRequest request) throws Exception {
+        List<Cart> list = cartService.selectCart(Integer.parseInt(CookieUtil.getLoginInfo(request)[1]));
+        OrderDetail model = new OrderDetail();
+
+        //创建order主订单(3.9 Order表方法创建)
+        for (Cart item : list) {
+            model.setGoods_id(item.getGoods_id());
+            model.setAmount(item.getAmount());
+            model.setOrder_id(1);
+            orderDetailService.add(model);
+        }
+        return "redicect:/Order";
+
     }
 }

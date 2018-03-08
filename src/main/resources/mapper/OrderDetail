@@ -4,5 +4,16 @@
 <!-- 设置为IUserDao接口方法提供sql语句配置 -->
 <mapper namespace="com.userDemo.dao.IOrderDetailDao">
 
+    <select id="selectlist" resultType="OrderDetail" parameterType="int">
+        SELECT * FROM OrderDetail WHERE order_id = #{order_id}
+    </select>
 
+    <insert id="add" parameterType="OrderDetail">
+        INSERT INTO OrderDetail(goods_id,amount,order_id) VALUES
+        (#{goods_id},#{amount},#{order_id})
+    </insert>
+
+    <delete id="delete" parameterType="int">
+        DELETE FROM OrderDetail WHERE id = #{id}
+    </delete>
 </mapper>

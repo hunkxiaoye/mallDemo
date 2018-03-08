@@ -43,7 +43,7 @@ public class CartController {
         model.setAmount(1);
         cartService.add(model);
         response.sendRedirect("CartIndex");
-        return "/CartIndex";
+        return "CartIndex";
 
 
     }
