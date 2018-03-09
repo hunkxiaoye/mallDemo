@@ -31,7 +31,7 @@ public class AdminController {
 
     @RequestMapping(value = "/adminindex")
     public String adminindex() {
-        return "adminIndex";
+        return "adminindex";
     }
 
     @RequestMapping(value = "/adminorderlist")
