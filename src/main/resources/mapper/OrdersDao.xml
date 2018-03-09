@@ -4,7 +4,7 @@
 
 <mapper namespace="com.userDemo.dao.IOrdersDao">
     <insert id="add" parameterType="Orders" >
-        <selectKey resultType="int" order="AFTER" keyProperty="id">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
             SELECT LAST_INSERT_ID()
         </selectKey>
         INSERT INTO Orders(createtime,status,address_id,user_id)values(#{createtime},#{status},#{address_id},#{user_id});

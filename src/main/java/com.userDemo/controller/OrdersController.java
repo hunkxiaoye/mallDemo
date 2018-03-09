@@ -55,8 +55,8 @@ public class OrdersController {
         orders.setCreatetime(new Date());
         orders.setAddress_id(addressid);
         orders.setUser_id(userid);
-        int orderid = ordersService.add(orders);
-        //创建order主订单(3.9 Order表方法创建)
+        ordersService.add(orders);
+        int orderid = orders.getId();
         for (Cart item : list) {
             model.setGoods_id(item.getGoods_id());
             model.setAmount(item.getAmount());
