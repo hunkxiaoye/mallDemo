@@ -1,0 +1,76 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>订单详情</title>
+</head>
+<body>
+<div>
+        <span> 订单编号</span>
+        <span>$model.Id</span>
+
+        <span> 创建时间</span>
+        <span> $model.Createtime</span>
+
+        <span> 订单状态</span>
+        #if($model.Status==0)
+        <span> 待支付</span>
+        #elseif($model.Status==1)
+        <span> 已支付</span>
+        #elseif($model.Status==2)
+        <span> 已取消</span>
+        #else
+        <span> 已发货</span>
+        #end
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th>
+
+                </th>
+                <th>
+                    商品名称
+                </th>
+                <th>
+                    单价
+                </th>
+                <th>
+                    商品信息
+                </th>
+                <th>
+                    数量
+                </th>
+                <th>
+                    操作
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            #foreach($item in $goodslist)
+            <tr>
+                <td>
+                    <img src="$item.Img">
+                </td>
+                <td>
+                    $item.Name
+                </td>
+                <td>
+                    $item.Price
+                </td>
+                <td>
+                    $item.Info
+                </td>
+                <td>1</td>
+            </tr>
+            #end
+            </tbody>
+        </table>
+    #if($model.Status==0)
+    <a href="/userDemo/pay?orderid=$model.Id">去付款</a>
+    #end
+    <a href="/userDemo/deleteorder?orderid=$model.Id">取消订单</a>
+
+</div>
+</body>
+</html>

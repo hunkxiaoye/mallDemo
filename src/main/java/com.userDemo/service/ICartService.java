@@ -1,7 +1,6 @@
 package com.userDemo.service;
 
 import com.userDemo.model.Cart;
-import com.userDemo.model.Goods;
 
 import java.util.List;
 
@@ -13,4 +12,6 @@ public interface ICartService {
     void add(Cart cart);
 
     void deleteCart(Cart cart);
+
+    void deleteCartAll(int user_id);
 }

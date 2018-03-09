@@ -5,8 +5,10 @@ import java.util.Date;
 public class Orders {
     private int id;
     private Date createtime;
-    private String status;
+    private int status;
     private int address_id;
+    private int user_id;
+
 
     public int getId() {
         return id;
@@ -24,11 +26,11 @@ public class Orders {
         this.createtime = createtime;
     }
 
-    public String getStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 
@@ -39,4 +41,13 @@ public class Orders {
     public void setAddress_id(int address_id) {
         this.address_id = address_id;
     }
+
+    public int getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(int user_id) {
+        this.user_id = user_id;
+    }
 }
+

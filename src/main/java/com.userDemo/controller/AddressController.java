@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -34,7 +35,7 @@ public class AddressController {
         int userid = Integer.parseInt(CookieUtil.getLoginInfo(request)[1]);
 
         model.addAttribute("List", selectList(userid));
-        return "redirect:/order";
+        return "CartIndex";
     }
 
     public ArrayList<Address> selectList(int userid) {
@@ -44,7 +45,7 @@ public class AddressController {
     }
 
     @RequestMapping(value = "/AddressPage")
-    public String AddressPage(Model model, int type, int id) {
+    public String AddressPage(Model model, int type, @RequestParam(required = false) Integer id) {
         if (type == 1) {
             model.addAttribute("isUpdate", true);
             model.addAttribute("model", addressService.findAllById(id));

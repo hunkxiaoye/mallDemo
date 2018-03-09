@@ -3,7 +3,6 @@ package com.userDemo.service;
 import com.userDemo.model.Address;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public interface IAddressService {
     ArrayList<Address> findAllByuserid(int userid);

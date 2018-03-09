@@ -21,4 +21,7 @@
     <delete id="deleteCart" parameterType="Cart">
         DELETE FROM Cart WHERE user_id =#{user_id} AND goods_id =#{goods_id}
     </delete>
+    <delete id="deleteCartAll" parameterType="int">
+        DELETE FROM Cart WHERE user_id =#{user_id}
+    </delete>
 </mapper>

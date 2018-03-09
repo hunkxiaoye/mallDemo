@@ -13,4 +13,7 @@ public interface ICartDao {
     void add(Cart cart);
 
     void deleteCart(Cart cart);
+
+    void deleteCartAll(int user_id);
+
 }

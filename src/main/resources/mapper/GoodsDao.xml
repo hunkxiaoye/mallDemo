@@ -24,4 +24,24 @@
     <select id="findGoodsById" resultMap="Goods" parameterType="int">
         SELECT * FROM goods WHERE id = #{id}
     </select>
+    <select id="findGoodsAll" resultMap="Goods" >
+        SELECT * FROM goods
+    </select>
+
+    <insert id="add" parameterType="Goods">
+        INSERT INTO Goods(name,price,info,img,stock,status,category_id) VALUES
+        (#{name},#{price},#{info},#{img},#{stock},#{status},#{category_id})
+    </insert>
+
+    <update id="Update" parameterType="Goods">
+        UPDATE Goods a SET
+        a.name = #{name},
+        a.price = #{price},
+        a.info = #{info},
+        a.img = #{img},
+        a.stock = #{stock},
+        a.status = #{status},
+        a.category_id = #{category_id}
+        WHERE a.id = #{id};
+    </update>
 </mapper>

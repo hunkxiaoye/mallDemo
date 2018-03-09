@@ -1,0 +1,33 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>Title</title>
+</head>
+<body>
+#if($isUpdate)
+<form action="/userDemo/updateGood" method="post">
+    <span> 商品名称</span><input type="text" name="name" value="$model.Name"/>
+    <span> 单价</span><input type="text" name="price" value="$model.Price"/>
+    <span> 商品信息</span><input type="text" name="info" value="$model.Info"/>
+    <span> 商品图片</span><input type="text" name="img" value="$model.Img"/>
+    <span> 库存</span><input type="text" name="stock" value="$model.Stock"/>
+    <span> 状态</span><input type="text" name="status"value="$model.Status"/>
+    <input type="hidden" name="id" value="$model.id">
+    <input type="hidden" name="category_id" value="$model.Category_id">
+    <button type="submit">修改</button>
+</form>
+#else
+<form action="/userDemo/creatGoods" method="post">
+    <span> 商品名称</span><input type="text" name="name" />
+    <span> 单价</span><input type="text" name="price" />
+    <span> 商品信息</span><input type="text" name="info"/>
+    <span> 商品图片</span><input type="text" name="img"/>
+    <span> 库存</span><input type="text" name="stock"/>
+    <span> 状态</span><input type="text" name="status"/>
+    <span>分类</span><input type="text" name="category_id"/>
+    <button type="submit">添加</button>
+</form>
+#end
+</body>
+</html>

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service("cartService")
+@Service(value = "cartService")
 public class CartServiceImpl implements ICartService {
     @Autowired
     private ICartDao cartDao;
@@ -31,4 +31,10 @@ public class CartServiceImpl implements ICartService {
 
         cartDao.deleteCart(cart);
     }
+
+    public void deleteCartAll(int user_id) {
+
+        cartDao.deleteCartAll(user_id);
+    }
+
 }

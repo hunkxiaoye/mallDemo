@@ -2,7 +2,7 @@
         "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-    <title>Title</title>
+    <title>订单</title>
 </head>
 <body>
 
@@ -30,9 +30,6 @@
                     <th>
                         数量
                     </th>
-                    <th>
-                        操作
-                    </th>
                 </tr>
                 </thead>
                 <tbody>
@@ -56,11 +53,12 @@
                 </tbody>
             </table>
             <form action="/userDemo/addOrder" method="post">
-
-
-            <div>
-                #parse("common/AddressList.html")
-            </div>
+                <span>选择地址</span>
+                <select id="Address" name ="addressid" class="select">
+                    #foreach($item in $addressList)
+                    <option value="$item.Id">$item.Name &nbsp;$item.Address</option>
+                    #end
+                </select>
                 <button type="submit">提交订单</button>
             </form>
         </div>

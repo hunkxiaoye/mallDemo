@@ -1,8 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<!-- 设置为IUserDao接口方法提供sql语句配置 -->
+
 <mapper namespace="com.userDemo.dao.IOrdersDao">
+    <insert id="add" parameterType="Orders" >
+        <selectKey resultType="int" order="AFTER" keyProperty="id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        INSERT INTO Orders(createtime,status,address_id,user_id)values(#{createtime},#{status},#{address_id},#{user_id});
+    </insert>
 
+    <select id="selectlist" resultType="Orders" parameterType="int">
+        SELECT * FROM Orders WHERE user_id = #{user_id}
+    </select>
 
+    <select id="selectAll" resultType="Orders" >
+        SELECT * FROM Orders
+    </select>
+
+    <select id="select" resultType="Orders" parameterType="int">
+        SELECT * FROM Orders WHERE id = #{id}
+    </select>
+
+    <update id="update" parameterType="Orders">
+        UPDATE Orders a SET
+        a.createtime = #{createtime},
+        a.status = #{status},
+        a.address_id = #{address_id},
+        a.user_id = #{user_id}
+        WHERE a.id = #{id};
+
+    </update>
+
+    <delete id="delete" parameterType="int">
+        DELETE FROM Orders WHERE id = #{id}
+    </delete>
 </mapper>

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service("GoodsService")
@@ -46,5 +47,15 @@ public class GoodsServicelmpl implements IGoodsService {
         return goods;
     }
 
+   public void add(Goods goods){
+        goodsDao.add(goods);
+   }
 
+   public ArrayList<Goods> findGoodsAll(){
+     return  goodsDao.findGoodsAll();
+   }
+
+   public void Update(Goods goods){
+         goodsDao.Update(goods);
+    }
 }
