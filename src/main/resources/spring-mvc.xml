@@ -49,7 +49,6 @@
 
 
 
-
     <!-- velocity配置 -->
     <bean id="velocityConfig" class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">
         <!-- <property name="configLocation" value="/WEB-INF/velocity.properties"/> -->
