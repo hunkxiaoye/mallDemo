@@ -4,12 +4,13 @@
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:cache="http://www.springframework.org/schema/cache"
        xmlns:p="http://www.springframework.org/schema/p" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/context
        http://www.springframework.org/schema/context/spring-context.xsd
        http://www.springframework.org/schema/tx
-       http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd">
+       http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
 
     <!-- 扫描service包下所有使用注解的类型 -->
     <context:component-scan base-package="com.userDemo.service"/>
@@ -21,34 +22,53 @@
     <!-- 缓存配置 -->
     <!--<cache:annotation-driven cache-manager="myCacheManager" />-->
     <!--<bean id="jCacheManager" class="org.springframework.cache.jcache.JCacheManagerFactoryBean">-->
-        <!--<property name="cacheManagerUri" value="classpath:ehcache.xml"/>-->
+    <!--<property name="cacheManagerUri" value="classpath:ehcache.xml"/>-->
     <!--</bean>-->
     <!--<bean id="myCacheManager" class="org.springframework.cache.jcache.JCacheCacheManager">-->
-        <!--<property name="cacheManager" ref="jCacheManager" />-->
+    <!--<property name="cacheManager" ref="jCacheManager" />-->
     <!--</bean>-->
 
     <!-- 数据库连接池 -->
-    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
-        <property name="driverClass" value="${jdbc.driver}"/>
-        <property name="jdbcUrl" value="${jdbc.url}"/>
-        <property name="user" value="${jdbc.username}"/>
-        <property name="password" value="${jdbc.password}"/>
+    <bean id="dataSourceA" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+        <property name="driverClass" value="${A.jdbc.driver}"/>
+        <property name="jdbcUrl" value="${A.jdbc.url}"/>
+        <property name="user" value="${A.jdbc.username}"/>
+        <property name="password" value="${A.jdbc.password}"/>
         <property name="maxPoolSize" value="${c3p0.maxPoolSize}"/>
         <property name="minPoolSize" value="${c3p0.minPoolSize}"/>
         <property name="autoCommitOnClose" value="${c3p0.autoCommitOnClose}"/>
         <property name="checkoutTimeout" value="${c3p0.checkoutTimeout}"/>
         <property name="acquireRetryAttempts" value="${c3p0.acquireRetryAttempts}"/>
     </bean>
+    <bean id="dataSourceB" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+        <property name="driverClass" value="${B.jdbc.driver}"/>
+        <property name="jdbcUrl" value="${B.jdbc.url}"/>
+        <property name="user" value="${B.jdbc.username}"/>
+        <property name="password" value="${B.jdbc.password}"/>
+        <property name="maxPoolSize" value="${c3p0.maxPoolSize}"/>
+        <property name="minPoolSize" value="${c3p0.minPoolSize}"/>
+        <property name="autoCommitOnClose" value="${c3p0.autoCommitOnClose}"/>
+        <property name="checkoutTimeout" value="${c3p0.checkoutTimeout}"/>
+        <property name="acquireRetryAttempts" value="${c3p0.acquireRetryAttempts}"/>
+    </bean>
+    <bean id="DataSource" class="com.userDemo.common.database.ChooseDataSource">
+        <property name="defaultTargetDataSource" ref="dataSourceA"/>
+        <property name="targetDataSources">
+            <map key-type="java.lang.String">
+                <entry key="write" value-ref="dataSourceA"/>
+                <entry key="read" value-ref="dataSourceB"/>
+            </map>
+        </property>
+    </bean>
 
     <!-- 配置SqlSessionFactory对象 -->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-        <!-- 注入数据库连接池 -->
-        <property name="dataSource" ref="dataSource"/>
-        <!-- 扫描model包 使用别名 -->
+        <property name="dataSource" ref="DataSource"/>
         <property name="typeAliasesPackage" value="com.userDemo.model"/>
-        <!-- 扫描sql配置文件:mapper需要的xml文件 -->
-        <property name="mapperLocations" value="classpath:mapper/*.xml"/>
+        <!-- 自动扫描mapping.xml文件 -->
+        <property name="mapperLocations" value="classpath:mapper/*.xml"></property>
     </bean>
+
 
     <!-- 配置扫描Dao接口包，动态实现Dao接口，注入到spring容器中 -->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
@@ -61,8 +81,22 @@
     <!-- 配置事务管理器 -->
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <!-- 注入数据库连接池 -->
-        <property name="dataSource" ref="dataSource"/>
+        <property name="dataSource" ref="DataSource"/>
     </bean>
+
+    <!-- aop自动代理配置，配置后直接使用注解 -->
+    <aop:aspectj-autoproxy/>
+
+    <bean id="dataSourceAspect" class="com.userDemo.common.database.DataSourceAspect"/>
+    <aop:config>
+        <aop:aspect id="c" ref="dataSourceAspect">
+            <aop:pointcut id="tx"
+                          expression="execution(* com.userDemo.service..*.*(..))"/>
+            <aop:before pointcut-ref="tx" method="before"/>
+        </aop:aspect>
+    </aop:config>
+    <!-- 配置数据库注解aop -->
+
 
     <!-- 配置基于注解的声明式事务 -->
     <tx:annotation-driven transaction-manager="transactionManager"/>

@@ -1,5 +1,6 @@
 package com.userDemo.service;
 
+import com.userDemo.common.database.DataSource;
 import com.userDemo.model.User;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpSession;
  */
 public interface IUserService {
     //登录校验
+    @DataSource("read")
     User checklogin(String username,String pwd);
 
     // 自动登录
