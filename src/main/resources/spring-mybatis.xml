@@ -93,6 +93,7 @@
             <aop:pointcut id="tx"
                           expression="execution(* com.userDemo.service..*.*(..))"/>
             <aop:before pointcut-ref="tx" method="before"/>
+            <aop:after pointcut-ref="tx" method="after"/>
         </aop:aspect>
     </aop:config>
     <!-- 配置数据库注解aop -->
