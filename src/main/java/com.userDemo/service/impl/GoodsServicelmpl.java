@@ -48,7 +48,9 @@ public class GoodsServicelmpl implements IGoodsService {
     }
 
    public void add(Goods goods){
-        goodsDao.add(goods);
+       goodsDao.add(goods);
+       if (CacheUtils.get("goods", 600) != null)
+       CacheUtils.set("goods", goods, 600);
    }
 
    public ArrayList<Goods> findGoodsAll(){
@@ -57,5 +59,7 @@ public class GoodsServicelmpl implements IGoodsService {
 
    public void Update(Goods goods){
          goodsDao.Update(goods);
+       if (CacheUtils.get("goods", 600) != null)
+           CacheUtils.set("goods", goods, 600);
     }
 }
